@@ -5,7 +5,7 @@
 <body style= "margin-right: 700px; background-color: rgb(140,140,140);">
 	<p>Hello World</p>
 	<p><% post.forEach(function(obj){  %>
-	<p style="font-family: monospace;width: 400px;"><%= obj.post %></p>
+	<a style="font-family: monospace;width: 400px;" href='/post/full/<%=obj.id %>'><%= obj.title %></a>
 	<% }); %>
 	</p>
 	<br>

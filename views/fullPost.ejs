@@ -6,7 +6,12 @@
 <body>
 <h1>Hello World</h1>
 <% postData.forEach(function(obj){  %>
-<a style="font-family: monospace;width: 400px;" href='/post/full/<%= obj.id %>'></p>
+<center>
+<p style="font-family: monospace;"><%= obj.post %></p>
+			<br>
+<p style="font-family: monospace;"><b>by: <%= obj.author %></b></p>
+			</br>
 <% }); %>
+</center>
 </body>
 </html>
