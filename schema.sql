@@ -5,11 +5,11 @@ id INTEGER PRIMARY KEY,
 title TEXT,
 description TEXT,
 author TEXT,  
-pic TEXT, 
-post TEXT 
+pic TEXT
 );
 CREATE TABLE posts(
 id INTEGER PRIMARY KEY, 
 title TEXT, 
-author TEXT 
+post TEXT,
+author TEXT
 );
