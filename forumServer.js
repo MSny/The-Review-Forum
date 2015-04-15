@@ -14,14 +14,43 @@ app.use(bodyParser.urlencoded({extended: false}));
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+// var bootstrap = require('bootstrap');
+// app.use(express.static(__The-Review-Forum+ '/bootstrap'));
+
 //declare port that it operates on
 var port = 3000;
 
 //declare primary redirect for home. 
 app.get('/', function(req, res){
 	res.redirect('/forum')
-})
+});
+//forum page 
+app.get('/forum', function (req, res){
+	res.render('index.ejs')
+});
 
+//show all categories on index page
+app.get('/category', function (req, res){
+	db.all("SELECT * FROM category", function(err, data){
+		if (err){
+			console.log(err)
+		} else {
+			var category = data;
+			console.log(category);
+		} res.render("category.ejs", {category: category});
+	});
+});
+// render create category page
+app.get('/category/new', function (req, res){
+	res.render('categoryNew.ejs')
+});
+//create new categories
+app.post("/category", function (req, res){
+	db.run("INSERT INTO category (title, description, author, pic, post) VALUES (?, ?, ?, ?, ?)", req.body.title, req.body.description, req.body.author, req.body.pic, req.body.post, function (err) {
+		if (err) console.log(err);
+	})
+	res.redirect("/forum")
+})
 
 //listen and startup log
 app.listen(3000);

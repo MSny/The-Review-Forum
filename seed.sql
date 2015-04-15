@@ -1,0 +1,1 @@
+INSERT INTO category (title, description, author, pic, post) VALUES ("Test post", "A post to test function", "Meir", "https://blog.compete.com/wp-content/uploads/2012/04/Person-Excited-at-Computer.jpg", "I can't believe this works!");
