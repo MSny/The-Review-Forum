@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <head>
-	<title>Itsnatsblog</title>
+	<title>Posts</title>
 </head>
 <body style= "margin-right: 700px; background-color: rgb(140,140,140);">
 	<p>Hello World</p>
-	<p><% category.forEach(function(obj){  %>
+	<p><% post.forEach(function(obj){  %>
 	<p style="font-family: monospace;width: 400px;"><%= obj.post %></p>
 	<% }); %>
 	</p>
+	<br>
+<h2>Create new post</h2>
+<form action = "/posts" method="POST">
+<input style = "width: 250px" type=text name='title' placeholder='title' >
+<br>
+<textarea name="post" style="margin: 0px; max-height: 350px; max-width: 312px;height: 250px;width: 250px;" placeholder='Write something'required> </textarea>
+<br>
+<input style = "width: 250px" type=text name='author' placeholder='author'>
+<br>
 
+<input type='hidden' name='category_id' value=<%= id %> >
+
+<button> Create</button>
+</form>
+<a href='/forum'>Back to main page</a>
+</body>
+</html>
 	<a href="/forum">Go to main page</a>
 </body>
 </html>

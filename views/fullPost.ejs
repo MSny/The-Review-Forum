@@ -1,0 +1,12 @@
+<<!DOCTYPE html>
+<html>
+<head>
+	<title>Post</title>
+</head>
+<body>
+<h1>Hello World</h1>
+<% postData.forEach(function(obj){  %>
+<a style="font-family: monospace;width: 400px;" href='/post/full/<%= obj.id %>'></p>
+<% }); %>
+</body>
+</html>

@@ -37,7 +37,7 @@ app.get('/forum', function (req, res){
 	});
 });
 
-//show all categories on index page
+//show all created categories on /category
 app.get('/category', function (req, res){
 	db.all("SELECT * FROM category", function(err, data){
 		if (err){
@@ -63,13 +63,38 @@ app.post("/category", function (req, res){
 // create posts page for a selected category
 app.get("/category/:id", function (req, res){
 	var id = req.params.id
-	db.all("SELECT * FROM category", function(err, data){
+	db.all("SELECT * FROM posts WHERE category_id="+id, function(err, data){
 		if (err){
 			console.log(err)
 		} else {
-			var category = data;
-		} res.render("post.ejs", {category: category});
+			var post = data;
+			db.all("SELECT * FROM category", function(err, data){
+				var category = data;
+				console.log(id);
+				res.render("post.ejs", {post: post, category: category, id: id});
+			})
+		}});
+			// console.log(category);
 	});
+			
+
+app.post("/posts", function (req, res){
+	db.run("INSERT INTO posts (title, post, author, category_id) VALUES (?, ?, ?, ?)", req.body.title, req.body.post, req.body.author, req.body.category_id, function (err) {
+		if (err) console.log(err);
+	});
+	res.redirect('/')
+});
+
+app.get('/post/full/:id', function (req, res){
+	var postId = req.params.id
+	db.all("SELECT * FROM posts WHERE id = "+postId, function (err, data){
+		if (err){
+			console.log(err)
+		} else {
+			var postData = data
+			res.render('fullPost.ejs', {postData: postData});
+		}
+	})
 });
 
 //listen and startup log

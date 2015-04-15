@@ -11,5 +11,6 @@ CREATE TABLE posts(
 id INTEGER PRIMARY KEY, 
 title TEXT, 
 post TEXT,
-author TEXT
+author TEXT,
+category_id INTEGER 
 );
