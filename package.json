@@ -1,0 +1,30 @@
+{
+  "name": "The-Review-Forum",
+  "version": "1.0.0",
+  "description": "A forum to post notes and other helpful info",
+  "main": "forumServer.js",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "marked": "^0.3.3",
+    "method-override": "^2.3.2",
+    "request": "^2.55.0",
+    "sqlite3": "^3.0.5",
+    "ejs": "^2.3.1",
+    "express": "^4.12.3",
+    "bootstrap": "^3.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MSny/The-Review-Forum.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MSny/The-Review-Forum/issues"
+  },
+  "homepage": "https://github.com/MSny/The-Review-Forum"
+}
