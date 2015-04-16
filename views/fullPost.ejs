@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Post</title>
@@ -7,11 +7,25 @@
 <h1>Hello World</h1>
 <% postData.forEach(function(obj){  %>
 <center>
+<%-marky%>
 <p style="font-family: monospace;"><%= obj.post %></p>
 			<br>
 <p style="font-family: monospace;"><b>by: <%= obj.author %></b></p>
 			</br>
 <% }); %>
+<!-- UPvote Downvote buttons -->
+<form action = "/post/full/<%= postId %>?_method=PUT" method="POST">
+<input type='hidden' name='Upvote' value="+1" >
+<input name="upvote" type="submit" id="rateup" value="Upvote" />
+</form>
+<form action = "/post/full/<%= postId %>?_method=PUT" method="POST">
+<input type='hidden' name='Downvote' value="-1" >
+<input name="downvote" type="submit" id="ratedown" value="Downvote"/>
+</form>
+<% postData.forEach(function(obj){  %>
+<p>post votes <%= obj.title %> <%= obj.vote %></p>
+<% }); %>
+<a href='/forum'>Back to main page</a>
 </center>
 </body>
 </html>

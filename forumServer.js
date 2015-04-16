@@ -14,6 +14,20 @@ app.use(bodyParser.urlencoded({extended: false}));
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+
+//Markdown to html npm (marked)
+var marked = require('marked');
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+});
+
 // var bootstrap = require('bootstrap');
 // app.use(express.static(__The-Review-Forum+ '/bootstrap'));
 
@@ -32,7 +46,7 @@ app.get('/forum', function (req, res){
 			console.log(err)
 		} else {
 			var category = data;
-			console.log(category);
+			//console.log(category);
 		} res.render("index.ejs", {category: category});
 	});
 });
@@ -62,25 +76,18 @@ app.post("/category", function (req, res){
 //add upvote or downvote to category
 app.put("/category/:id", function (req, res) {
 	var id = req.params.id
-	console.log("params ID =" + id);
-	console.log(req.body);
 	var voteUp = 0
 	if (req.body.Upvote === '+1') {
 		voteUp = voteUp +1	
-		console.log("pre UP"+ voteUp);
 	}
 	if (req.body.Downvote === '-1') {
 		voteUp = voteUp -1;
-		console.log("pre" +voteUp);
 	}	
 	db.run('UPDATE category SET vote = vote + ? WHERE id = ?',voteUp, id,  function (err){
-		console.log("hi there"+id)
 		if (err) {
 			console.log(err)
 		} 
 		else {
-			console.log(req.body.Upvote)
-			console.log(voteUp)
 			res.redirect('/');
 		}
 	})
@@ -96,7 +103,7 @@ app.get("/category/:id", function (req, res){
 			var post = data;
 			db.all("SELECT * FROM category", function(err, data){
 				var category = data;
-				console.log(id);
+				//console.log(id);
 				res.render("post.ejs", {post: post, category: category, id: id});
 			})
 		}});
@@ -117,21 +124,60 @@ app.get('/post/full/:id', function (req, res){
 		if (err){
 			console.log(err)
 		} else {
+			//Convert html to markdown
+			var markdownArr = []
+			for (var i = 0; i< data.length; i++){
+				markdownArr.push(data[i])
+			}
+			//console.log(markdownArr);
+			var markdownArrPost = []
+			markdownArrPost.push(markdownArr[0].post)
+			console.log(markdownArrPost);
+			var mark = markdownArrPost.toString()
+			var marky = marked(mark)
+			 
 			var postData = data
-			res.render('fullPost.ejs', {postData: postData});
+			res.render('fullPost.ejs', {postData: postData, postId: postId, marky: marky});
+		}
+	})
+});
+
+
+//upvote downvote posts
+app.put('/post/full/:id', function (req, res) {
+	var id = req.params.id
+	console.log("params ID =" + id);
+	var voteUp = 0
+	if (req.body.Upvote === '+1') {
+		voteUp = voteUp +1	
+	}
+	if (req.body.Downvote === '-1') {
+		voteUp = voteUp -1;
+	}	
+	db.run('UPDATE posts SET vote = vote + ? WHERE id = ?',voteUp, id,  function (err){
+		console.log("hi there"+id)
+		if (err) {
+			console.log(err)
+		} 
+		else {
+			res.redirect('/');
 		}
 	})
 });
 
 // see all forum posts. 
 app.get('/posts/all', function (req, res){
-	db.all("SELECT * FROM posts WHERE id < 10", function(err, data){
+	db.all("SELECT * FROM posts", function(err, data){
 		if (err){
 			console.log(err)
 		} else {
 			var posts = data;
+			var start = 0;
+			var end = 10;
+			var first10 = posts.slice(start, end)
+			//console.log(first10);
 			// console.log(category);
-		} res.render("allPosts.ejs", {posts: posts});
+		} res.render("allPosts.ejs", {posts: posts, first10: first10});
 	});
 });
 
