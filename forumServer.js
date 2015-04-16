@@ -54,11 +54,37 @@ app.get('/category/new', function (req, res){
 });
 //create new categories
 app.post("/category", function (req, res){
-	db.run("INSERT INTO category (title, description, author, pic) VALUES (?, ?, ?, ?)", req.body.title, req.body.description, req.body.author, req.body.pic, function (err) {
+	db.run("INSERT INTO category (title, description, author, pic, vote) VALUES (?, ?, ?, ?, ?)", req.body.title, req.body.description, req.body.author, req.body.pic, req.body.vote, function (err) {
 		if (err) console.log(err);
 	})
 	res.redirect("/forum")
 })
+//add upvote or downvote to category
+app.put("/category/:id", function (req, res) {
+	var id = req.params.id
+	console.log("params ID =" + id);
+	console.log(req.body);
+	var voteUp = 0
+	if (req.body.Upvote === '+1') {
+		voteUp = voteUp +1	
+		console.log("pre UP"+ voteUp);
+	}
+	if (req.body.Downvote === '-1') {
+		voteUp = voteUp -1;
+		console.log("pre" +voteUp);
+	}	
+	db.run('UPDATE category SET vote = vote + ? WHERE id = ?',voteUp, id,  function (err){
+		console.log("hi there"+id)
+		if (err) {
+			console.log(err)
+		} 
+		else {
+			console.log(req.body.Upvote)
+			console.log(voteUp)
+			res.redirect('/');
+		}
+	})
+});
 
 // create posts page for a selected category
 app.get("/category/:id", function (req, res){
@@ -79,7 +105,7 @@ app.get("/category/:id", function (req, res){
 			
 
 app.post("/posts", function (req, res){
-	db.run("INSERT INTO posts (title, post, author, category_id) VALUES (?, ?, ?, ?)", req.body.title, req.body.post, req.body.author, req.body.category_id, function (err) {
+	db.run("INSERT INTO posts (title, post, author, category_id, vote) VALUES (?, ?, ?, ?, ?)", req.body.title, req.body.post, req.body.author, req.body.category_id, req.body.vote, function (err) {
 		if (err) console.log(err);
 	});
 	res.redirect('/')
@@ -95,6 +121,18 @@ app.get('/post/full/:id', function (req, res){
 			res.render('fullPost.ejs', {postData: postData});
 		}
 	})
+});
+
+// see all forum posts. 
+app.get('/posts/all', function (req, res){
+	db.all("SELECT * FROM posts WHERE id < 10", function(err, data){
+		if (err){
+			console.log(err)
+		} else {
+			var posts = data;
+			// console.log(category);
+		} res.render("allPosts.ejs", {posts: posts});
+	});
 });
 
 //listen and startup log

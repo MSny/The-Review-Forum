@@ -2,6 +2,7 @@
 <head>
 	<title>Posts</title>
 </head>
+<!-- Show created posts -->
 <body style= "margin-right: 700px; background-color: rgb(140,140,140);">
 	<p>Hello World</p>
 	<p><% post.forEach(function(obj){  %>
@@ -9,9 +10,10 @@
 	<% }); %>
 	</p>
 	<br>
+<!-- Create new post form -->
 <h2>Create new post</h2>
 <form action = "/posts" method="POST">
-<input style = "width: 250px" type=text name='title' placeholder='title' >
+<input style = "width: 250px" type='text' name='title' placeholder='title' >
 <br>
 <textarea name="post" style="margin: 0px; max-height: 350px; max-width: 312px;height: 250px;width: 250px;" placeholder='Write something'required> </textarea>
 <br>
@@ -19,12 +21,26 @@
 <br>
 
 <input type='hidden' name='category_id' value=<%= id %> >
+<input type='hidden' name='vote' value='0'>
 
 <button> Create</button>
+<br>
+<br>
+<% category.forEach(function(obj){  %>
+<p>category votes <%= obj.title %> <%= obj.vote %></p>
+<% }); %>
+</form>
+<!-- UPvote Downvote buttons -->
+<form action = "/category/<%= id %>?_method=PUT" method="POST">
+<input type='hidden' name='Upvote' value="+1" >
+<input name="upvote" type="submit" id="rateup" value="Upvote" />
+</form>
+<form action = "/category/<%= id %>?_method=PUT" method="POST">
+<input type='hidden' name='Downvote' value="-1" >
+<input name="downvote" type="submit" id="ratedown" value="Downvote"/>
 </form>
 <a href='/forum'>Back to main page</a>
 </body>
 </html>
-	<a href="/forum">Go to main page</a>
 </body>
 </html>
