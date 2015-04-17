@@ -39,6 +39,12 @@
 <input type='hidden' name='Downvote' value="-1" >
 <input name="downvote" type="submit" id="ratedown" value="Downvote"/>
 </form>
+<br>
+<br>
+<form method="POST" action="/category/<%= id %>?_method=DELETE">
+    <button>Delete this category</button>
+  </form>
+  </br>
 <a href='/forum'>Back to main page</a>
 </body>
 </html>

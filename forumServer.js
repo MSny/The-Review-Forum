@@ -34,7 +34,7 @@ marked.setOptions({
 //declare port that it operates on
 var port = 3000;
 
-
+///////////////////////////////////////////////////////////////////////
 //declare primary redirect for home. 
 app.get('/', function(req, res){
 	res.redirect('/forum')
@@ -50,6 +50,7 @@ app.get('/forum', function (req, res){
 		} res.render("index.ejs", {category: category});
 	});
 });
+///////////////////////////////////////////////////////////////////////
 
 //show all created categories on /category
 app.get('/category', function (req, res){
@@ -62,6 +63,8 @@ app.get('/category', function (req, res){
 		} res.render("category.ejs", {category: category});
 	});
 });
+///////////////////////////////////////////////////////////////////////
+
 // render create category page
 app.get('/category/new', function (req, res){
 	res.render('categoryNew.ejs')
@@ -73,6 +76,9 @@ app.post("/category", function (req, res){
 	})
 	res.redirect("/forum")
 })
+
+///////////////////////////////////////////////////////////////////////
+
 //add upvote or downvote to category
 app.put("/category/:id", function (req, res) {
 	var id = req.params.id
@@ -92,6 +98,7 @@ app.put("/category/:id", function (req, res) {
 		}
 	})
 });
+///////////////////////////////////////////////////////////////////////
 
 // create posts page for a selected category
 app.get("/category/:id", function (req, res){
@@ -110,6 +117,7 @@ app.get("/category/:id", function (req, res){
 			// console.log(category);
 	});
 			
+///////////////////////////////////////////////////////////////////////
 
 app.post("/posts", function (req, res){
 	db.run("INSERT INTO posts (title, post, author, category_id, vote) VALUES (?, ?, ?, ?, ?)", req.body.title, req.body.post, req.body.author, req.body.category_id, req.body.vote, function (err) {
@@ -117,7 +125,9 @@ app.post("/posts", function (req, res){
 	});
 	res.redirect('/')
 });
+///////////////////////////////////////////////////////////////////////
 
+//Show specific post within page
 app.get('/post/full/:id', function (req, res){
 	var postId = req.params.id
 	db.all("SELECT * FROM posts WHERE id = "+postId, function (err, data){
@@ -125,14 +135,15 @@ app.get('/post/full/:id', function (req, res){
 			console.log(err)
 		} else {
 			//Convert html to markdown
+			console.log(data)
 			var markdownArr = []
 			for (var i = 0; i< data.length; i++){
 				markdownArr.push(data[i])
 			}
-			//console.log(markdownArr);
+
 			var markdownArrPost = []
 			markdownArrPost.push(markdownArr[0].post)
-			console.log(markdownArrPost);
+			//console.log(markdownArrPost);
 			var mark = markdownArrPost.toString()
 			var marky = marked(mark)
 			 
@@ -141,6 +152,36 @@ app.get('/post/full/:id', function (req, res){
 		}
 	})
 });
+///////////////////////////////////////////////////////////////////////
+
+//Delete posts
+// app.delete('/post/full/:id', function(req, res){
+// 	db.all("DELETE FROM posts WHERE category_id = ?", req.params.id, function(err,){
+// 		res.redirect("/forum")
+// 	})
+// })
+
+//If there are no posts in category, delete category enable
+app.delete("/category/:id", function(req, res) {
+  db.all("SELECT * FROM posts WHERE category_id = ?", req.params.id, function(err, data) {
+    if (data.length === 0) {
+      db.run("DELETE FROM category WHERE id = ?", req.params.id, function(err) {
+        res.redirect("/")
+      })
+    } else {
+      db.get("SELECT categories.title, categories.id FROM categories WHERE id = ?", req.params.id, function(err, data1) {
+        db.all("SELECT posts.title, posts.id FROM posts WHERE category_id = ?", req.params.id, function(err, data2) {
+          res.render("index.ejs", {
+            thisCategory: data1,
+            posts: data2,
+            err: "Cannot delete categories with posts"
+          })
+        });
+      });
+    }
+  });
+});
+///////////////////////////////////////////////////////////////////////
 
 
 //upvote downvote posts
@@ -164,6 +205,7 @@ app.put('/post/full/:id', function (req, res) {
 		}
 	})
 });
+///////////////////////////////////////////////////////////////////////
 
 // see all forum posts. 
 app.get('/posts/all', function (req, res){
