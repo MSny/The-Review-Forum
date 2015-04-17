@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
 	<title></title>
 </head>
 <body style= "margin-right: 700px; background-color: rgb(140,140,140);">
 	<p>Hello World</p>
-	<center>
+<center>
+
 	
-	<p><% first10.forEach(function(obj){  %>
-	<table>
-		<a style="font-family: monospace;width: 400px;" href='/post/full/<%=obj.id %>'><%= obj.title %></a>
-		<% }); %>
-	</table>
-	</center>
+<ul>
+  <% for(var i = 0; i < pTitles.length; i++){ %>
+  	<li id="posts">
+  		<a href="/post/full/<%= pTitles[i].id %>"><%= pTitles[i].title %></a>
+  	</li> <% } %>
+</ul>
+		<a href="/posts/all?offset=<%= pagination %>">More</a>
+</center>
 	<br>
 <a href="/forum">Go to forum Home</a>
 </body>

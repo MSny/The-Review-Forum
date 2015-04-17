@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+var $ = require('jQuery');
 
 //Markdown to html npm (marked)
 var marked = require('marked');
@@ -206,22 +207,47 @@ app.put('/post/full/:id', function (req, res) {
 	})
 });
 ///////////////////////////////////////////////////////////////////////
-
-// see all forum posts. 
-app.get('/posts/all', function (req, res){
-	db.all("SELECT * FROM posts", function(err, data){
-		if (err){
-			console.log(err)
-		} else {
-			var posts = data;
-			var start = 0;
-			var end = 10;
-			var first10 = posts.slice(start, end)
-			//console.log(first10);
-			// console.log(category);
-		} res.render("allPosts.ejs", {posts: posts, first10: first10});
-	});
+////////////////////////////////////////////////
+// This page is going to show all posts and all categories
+app.get("/posts/all", function(req, res) {
+  if(req.query.offset === undefined) { req.query.offset = 0; }
+  db.all("SELECT posts.title, posts.post, posts.id, category_id FROM posts LIMIT 10 OFFSET ?", req.query.offset, function(err, data1) {
+    //console.log(data1)
+    db.all("SELECT category.title, category.id FROM category", function(err, data2) {
+      //console.log(data2)
+      res.render("allposts.ejs", {
+        pTitles: data1,
+        cTitles: data2,
+        pagination: parseInt(req.query.offset) + 10,
+      })
+    });
+  });
 });
+// see all forum posts. 
+// app.get('/posts/all', function (req, res){
+// 	db.all("SELECT * FROM posts", function(err, data){
+// 		if (err){
+// 			console.log(err)
+// 		} else {
+// 			var posts = data;
+// 			//console.log(posts)
+// 			var pagination = [];
+// 			var start = 0;
+// 			var end = 10;
+// 			var counter = function(){
+// 				(posts / 10)
+// 			}
+// 			for (var i = 0; i < data.length; i++) {
+// 				pagination.push(posts.slice(start, end))
+// 			}
+// 			console.log("pagination = "+pagination)
+// 			var first10 = posts.slice(start, end)
+// 			console.log(first10);
+// 			// console.log(category);
+	
+// 		} res.render("allPosts.ejs", {posts: posts, first10: first10});
+// 	});
+// });
 
 //listen and startup log
 app.listen(3000);
