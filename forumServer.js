@@ -14,7 +14,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
-var $ = require('jQuery');
 
 //Markdown to html npm (marked)
 var marked = require('marked');
