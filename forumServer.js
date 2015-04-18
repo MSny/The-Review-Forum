@@ -236,32 +236,6 @@ app.get("/posts/all", function(req, res) {
     });
   });
 });
-// see all forum posts. 
-// app.get('/posts/all', function (req, res){
-// 	db.all("SELECT * FROM posts", function(err, data){
-// 		if (err){
-// 			console.log(err)
-// 		} else {
-// 			var posts = data;
-// 			//console.log(posts)
-// 			var pagination = [];
-// 			var start = 0;
-// 			var end = 10;
-// 			var counter = function(){
-// 				(posts / 10)
-// 			}
-// 			for (var i = 0; i < data.length; i++) {
-// 				pagination.push(posts.slice(start, end))
-// 			}
-// 			console.log("pagination = "+pagination)
-// 			var first10 = posts.slice(start, end)
-// 			console.log(first10);
-// 			// console.log(category);
-	
-// 		} res.render("allPosts.ejs", {posts: posts, first10: first10});
-// 	});
-// });
-
 //listen and startup log
 app.listen(3000);
 console.log("I've started!");

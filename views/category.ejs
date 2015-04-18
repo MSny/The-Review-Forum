@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<!-- Font awesome for rating star -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -33,10 +34,10 @@
 					<h2><a href="/category/<%= obj.id %>"><%= obj.title %></a></h2>
 					<p style="font-family: monospace;"><%= obj.description %></p>
 				<p style="font-family: monospace;"><b>by: <%= obj.author %></b></p>
-				<h4>Votes: <%= obj.vote %></h4>
+				<i class="fa fa-star"> <%= obj.vote %></i>
+				<br>
 				<br>
 			<% }); %>
-				<p>Awesome</p>
 		</div>
 	</div>
 </div>
