@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<title>Main Forum</title>
 </head>
-<body>
-<p>Hello World</p>
-	<ul>
-	<% include category %>
-	</ul>
-<a href='/posts/all'>View all posts</a>
+<body style="Background: White;">
+<div class="container"> <!-- bootstrap container -->
+	<div class="row">
+		<div class="col-xs-6">
+			<ul>
+				<% include category %>
+			</ul>
+		</div>
+		<div class="col-xs-4">
+			<% include allposts %>
+			<a href='/posts/all'>View all posts</a>
+</div>
+	</div>
+		</div>
 </body>
 </html>

@@ -47,10 +47,23 @@ app.get('/forum', function (req, res){
 			console.log(err)
 		} else {
 			var category = data;
-			//console.log(category);
-		} res.render("index.ejs", {category: category});
-	});
-});
+			if(req.query.offset === undefined) { req.query.offset = 0; }
+  			db.all("SELECT posts.title, posts.post, posts.id, category_id FROM posts LIMIT 10 OFFSET ?", req.query.offset, function(err, data1) {
+    			//console.log(data1)
+    			db.all("SELECT category.title, category.id FROM category", function(err, data2) {
+      				//console.log(data2)
+      				res.render("index.ejs", {
+					category: category,
+        			pTitles: data1,
+        			cTitles: data2,
+        			pagination: parseInt(req.query.offset) + 10,});
+				});
+			});
+
+      	}
+    });
+})
+
 ///////////////////////////////////////////////////////////////////////
 
 //show all created categories on /category

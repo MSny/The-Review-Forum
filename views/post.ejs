@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<title>Posts</title>
 </head>
+<div class="container"> <!-- bootstrap container -->
+	<div class="row">
+		<div class="col-xs-3"></div>
+			<div class="col-xs-6">
+
 <!-- Show created posts -->
 <body style= "margin-right: 700px; background-color: rgb(140,140,140);">
 	<p>Hello World</p>
@@ -26,9 +39,7 @@
 <button> Create</button>
 <br>
 <br>
-<% category.forEach(function(obj){  %>
-<p>category votes <%= obj.title %> <%= obj.vote %></p>
-<% }); %>
+
 </form>
 <!-- UPvote Downvote buttons -->
 <form action = "/category/<%= id %>?_method=PUT" method="POST">
@@ -45,7 +56,15 @@
     <button>Delete this category</button>
   </form>
   </br>
+ <form action="action_page.php">
+  E-mail:
+  <input type="email" name="email">
+</form>
+<br>
 <a href='/forum'>Back to main page</a>
+		</div>
+	</div>
+</div>
 </body>
 </html>
 </body>
