@@ -3,17 +3,18 @@
 <head>
 
 
-	<title></title>
+	<title>All Posts</title>
 </head>
-<body style= "margin-right: 700px; background-color: rgb(140,140,140);">
-	<h2>All posts</h2>
+<body style= "margin-right: 700px; background-color: #ecf0f1;">
+	<br>
+	<h2 style="font-size: 2em; color: #2c3e50">All posts</h2>
 <center>
 
 	
 <ul>
   <% for(var i = 0; i < pTitles.length; i++){ %>
   	<li id="posts">
-  		<a href="/post/full/<%= pTitles[i].id %>"><%= pTitles[i].title %></a>
+  		<a style="font-family:'Bookman Old Style', Bookman, 'URW Bookman L', 'Palatino Linotype', serif; color: #2c3e50;" href="/post/full/<%= pTitles[i].id %>"><%= pTitles[i].title %></a>
   	</li> <% } %>
 </ul>
 		<a href="/posts/all?offset=<%= pagination %>">More</a>

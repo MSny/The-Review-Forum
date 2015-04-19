@@ -18,32 +18,35 @@
 			<div class="col-xs-6">
 
 <!-- Show created posts -->
-<body style= "background-color: White;">
+<body style="background-color: #ecf0f1;">
 <div class="container">
 	<div class="row">
 		<div class="col-x4-6 col-md-4">	
 		<h3>Posts</h3>
-			<% deadpost.forEach(function(obj){  %>
-			<p>Expired:<%= obj.title %></p>
-			<% }); %>
+			
 			<p><% post.forEach(function(obj){  %></p>
-			<a style="font-family: monospace;width: 400px;" href='/post/full/<%=obj.id %>'><%= obj.title %></a>
+			<a style="width: 400px; color: #2c3e50;" href='/post/full/<%=obj.id %>'><%= obj.title %></a>
 				<i class="fa fa-star"> <%= obj.vote %></i>
 				<br>
 			<% }); %>
+			<br>
+			<% deadpost.forEach(function(obj){  %>
+			<p style="color: #2c3e50;"><%= obj.title %> <i class="fa fa-lock"> </i></p>
+			<% }); %>
+			<a style="font-size: 1em; color: hotpink;" href='/forum'>Back to main page</a>
 		</div>
 		<div class="col-md-6">
 		<h3>Create New Post</h3>
 		<!-- Create new post form -->
 	<!-- 	<h2>Create new post</h2> -->
 		<form action = "/posts" method="POST">
-		<input style = "width: 250px" type='text' name='title' placeholder='title' >
+		<input style = "width: 250px" type='text' name='title' placeholder='title' required >
 		<br>
 		<textarea name="post" style="margin: 0px; max-height: 350px; max-width: 312px;height: 250px;width: 250px;" placeholder='Write something'required> </textarea>
 		<br>
 		<input style = "width: 250px" type=text name='author' placeholder='author'>
 		<br>
-		<input style = "width: 250px" type=text name='timetolive' placeholder='Format YYYY-MM-DD HH:MM'>
+		<input style = "width: 250px" type=text name='timetolive' placeholder='Format YYYY-MM-DD HH:MM' required>
 		<input type='hidden' name='category_id' value=<%= id %> >
 		<input type='hidden' name='vote' value='0'>
 
@@ -78,7 +81,6 @@
 		  <input type="email" name="email">
 		</form>
 		<br>
-		<a href='/forum'>Back to main page</a>
 		</div>
 	</div>
 </div>

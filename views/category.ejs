@@ -11,13 +11,17 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<title>partials</title>
+	<title>Categories</title>
 </head>
-<body>
+<body style="background-color: #ecf0f1;">
 <div class="container"> <!-- bootstrap container -->
 	<div class="row-fluid">
+	<br>
+	
 			<!-- Logo -->
-			<a style="font-size: 2em; color: black;" href="/category"><img src="http://i.imgur.com/gAfGdf3.png" title="source: imgur.com" />Categories</a>		
+			<a style="font-size: 2em; color: #2c3e50;" href="/category"><img src="http://i.imgur.com/dZqh3TO.png" title="source: imgur.com" />Categories</a>
+			<br>
+			<br>		
 			<div class="row">
 			<div class="col-md-2">
 			<% category.forEach(function(obj){  %>
@@ -31,8 +35,8 @@
 		<div class="col-md-8" style="">
 					<!-- <h2>Categories</h2> -->
 					<% category.forEach(function(obj){  %>
-					<h2><a style="font-size: 1em; color: black;" href="/category/<%= obj.id %>"><%= obj.title %></a></h2>
-					<p style="font-family: monospace;"><%= obj.description %></p>
+					<h2><a style="font-size: 1em; color: #2c3e50;" href="/category/<%= obj.id %>"><%= obj.title %></a></h2>
+					<p style="font-family:'Bookman Old Style', Bookman, 'URW Bookman L', 'Palatino Linotype', serif; color: #2c3e50;"><%= obj.description %></p>
 				<p style="font-family: monospace;"><b>by: <%= obj.author %></b></p>
 				<i class="fa fa-star"> <%= obj.vote %></i>
 				<br>
