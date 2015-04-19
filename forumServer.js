@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+var request = require("request");
+// Sendgrid action
+var sendgrid  = require('sendgrid')("msny36", "gogeta123");
 
 //Markdown to html npm (marked)
 var marked = require('marked');
@@ -113,27 +116,44 @@ app.put("/category/:id", function (req, res) {
 });
 ///////////////////////////////////////////////////////////////////////
 
-// create posts page for a selected category
+// create posts page for a selected category & show posts that are still alive. 
 app.get("/category/:id", function (req, res){
 	var id = req.params.id
-	db.all("SELECT * FROM posts WHERE category_id="+id, function(err, data){
+	db.all("SELECT * FROM posts WHERE category_id="+id+" AND timetolive > strftime('%Y-%m-%d %H:%M:%S','now')", function(err, data){
 		if (err){
 			console.log(err)
 		} else {
 			var post = data;
 			db.all("SELECT * FROM category", function(err, data){
 				var category = data;
+				db.all("SELECT posts.title FROM posts WHERE category_id="+id+" AND timetolive < strftime('%Y-%m-%d %H:%M:%S','now');", function(err, data){
+					var deadpost = data;
+					console.log(deadpost)
 				//console.log(id);
-				res.render("post.ejs", {post: post, category: category, id: id});
+				res.render("post.ejs", {post: post, category: category, id: id, deadpost:deadpost});
+			})
 			})
 		}});
 			// console.log(category);
 	});
+
+// app.get("/category/:id", function (req, res){
+// 	var id = req.params.id
+// 	db.all("SELECT posts.title FROM posts WHERE timetolive < strftime('%Y-%m-%d %H:%M:%S','now');", function(err, data){
+// 		if (err){
+// 			console.log(err)
+// 		} else {
+// 			var deadpost = data;
+// 			console.log(deadpost);
+// 			res.render("post.ejs", {postdead: postdead});
+// 		}
+// 	});
+// });
 			
 ///////////////////////////////////////////////////////////////////////
 
 app.post("/posts", function (req, res){
-	db.run("INSERT INTO posts (title, post, author, category_id, vote) VALUES (?, ?, ?, ?, ?)", req.body.title, req.body.post, req.body.author, req.body.category_id, req.body.vote, function (err) {
+	db.run("INSERT INTO posts (title, post, author, category_id, vote, timetolive) VALUES (?, ?, ?, ?, ?, ?)", req.body.title, req.body.post, req.body.author, req.body.category_id, req.body.vote, req.body.timetolive, function (err) {
 		if (err) console.log(err);
 	});
 	res.redirect('/')
@@ -235,6 +255,33 @@ app.get("/posts/all", function(req, res) {
     });
   });
 });
+
+//////////////////////////////////////////////////////////////////////
+// Sendgrid
+// Add email to subscriptions page
+// app.post("/subscriptions", function (req, res){
+// 	db.run("INSERT INTO subscriptions (email) VALUES (?)", req.body.email, function(err){
+// 		res.redirect("/category/"+ req.body.category_id)
+// 	});
+// });
+// // Add the new post to your category page and email it to myself. Look at sendgrid2 branch to see my attempt at pulling emails from subscriptions table(unsuccessful so far)
+// app.post("/category/:id", function(req, res) {
+//   db.run("INSERT INTO posts (title, post, author, category_id) VALUES(?, ?, ?, ?)", req.body.title, req.body.body, req.body.image, req.params.id, function(err) {
+//     var email     = new sendgrid.Email({
+//   to:       'msny36@gmail.com',
+//   from:     'msny36@gmail.com',
+//   subject:  req.body.title,
+//   text:     req.body.body
+// });
+// sendgrid.send(email, function(err, json) {
+//   if (err) { return console.error(err); }
+//   console.log(json);
+// });
+//     res.redirect("/category/" + req.params.id)
+//   });
+
+// });
+
 //listen and startup log
 app.listen(3000);
 console.log("I've started!");

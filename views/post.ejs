@@ -23,6 +23,9 @@
 	<div class="row">
 		<div class="col-x4-6 col-md-4">	
 		<h3>Posts</h3>
+			<% deadpost.forEach(function(obj){  %>
+			<p>Expired:<%= obj.title %></p>
+			<% }); %>
 			<p><% post.forEach(function(obj){  %></p>
 			<a style="font-family: monospace;width: 400px;" href='/post/full/<%=obj.id %>'><%= obj.title %></a>
 				<i class="fa fa-star"> <%= obj.vote %></i>
@@ -40,7 +43,7 @@
 		<br>
 		<input style = "width: 250px" type=text name='author' placeholder='author'>
 		<br>
-
+		<input style = "width: 250px" type=text name='timetolive' placeholder='Format YYYY-MM-DD HH:MM'>
 		<input type='hidden' name='category_id' value=<%= id %> >
 		<input type='hidden' name='vote' value='0'>
 
@@ -49,6 +52,12 @@
 		<br>
 
 		</form>
+		<!-- Subscribe button -->
+		<form action="/subscriptions" method="POST">
+      <input type="text" name="email" placeholder="Add email to subscribe" required>
+      <input type="hidden" name="category_id" value="<%= id %>">
+      <button>Subscribe to this seed</button>
+    	</form>
 		<!-- UPvote Downvote buttons -->
 		<form action = "/category/<%= id %>?_method=PUT" method="POST">
 		<input type='hidden' name='Upvote' value="+1" >

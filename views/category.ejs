@@ -17,7 +17,7 @@
 <div class="container"> <!-- bootstrap container -->
 	<div class="row-fluid">
 			<!-- Logo -->
-			<a href="/forum"><img src="http://i.imgur.com/gAfGdf3.png" title="source: imgur.com" />Categories</a>		
+			<a style="font-size: 2em; color: black;" href="/category"><img src="http://i.imgur.com/gAfGdf3.png" title="source: imgur.com" />Categories</a>		
 			<div class="row">
 			<div class="col-md-2">
 			<% category.forEach(function(obj){  %>
@@ -31,7 +31,7 @@
 		<div class="col-md-8" style="">
 					<!-- <h2>Categories</h2> -->
 					<% category.forEach(function(obj){  %>
-					<h2><a href="/category/<%= obj.id %>"><%= obj.title %></a></h2>
+					<h2><a style="font-size: 1em; color: black;" href="/category/<%= obj.id %>"><%= obj.title %></a></h2>
 					<p style="font-family: monospace;"><%= obj.description %></p>
 				<p style="font-family: monospace;"><b>by: <%= obj.author %></b></p>
 				<i class="fa fa-star"> <%= obj.vote %></i>
