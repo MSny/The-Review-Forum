@@ -13,8 +13,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var methodOverride = require('method-override');
 app.use(methodOverride('_method'));
-
+// Instagram search for category pictures
 var request = require("request");
+var instagramString = ""
+var secrets = require("./secrets.json");
+var apiKey = secrets["instaAPI"];
+var instaURL = ""
+var instaImg = ""
 // Sendgrid action
 var sendgrid  = require('sendgrid')("msny36", "gogeta123");
 
@@ -83,8 +88,32 @@ app.get('/category', function (req, res){
 
 // render create category page
 app.get('/category/new', function (req, res){
-	res.render('categoryNew.ejs')
+	instaImg = ""
+	res.render('categoryNew.ejs', {instaURL: instaURL})
 });
+////////////////////////////////////////////////////////
+// Search Instagram API and grabs url
+app.post('/category/new', function (req, res){
+		instagramString += "https://api.instagram.com/v1/tags/"+req.body.search+"/media/recent?client_id="+apiKey
+		console.log(instagramString);
+		request(instagramString,function(err,response, body){
+	if (err){
+		console.log(err)
+	} else if (instaImg.length < 2){
+		var parsedI = JSON.parse(body);
+		console.log(parsedI)
+		instaImg = parsedI.data[5].images.standard_resolution.url;
+		instaURL= instaImg;
+		console.log(instaImg);
+		res.render('categoryNew.ejs', {instaURL: instaURL})
+	}
+	})
+		if (instaImg.length > 2){
+			instaImg = ""
+		}
+});
+		
+		// instaPicURL += instaImg;
 //create new categories
 app.post("/category", function (req, res){
 	db.run("INSERT INTO category (title, description, author, pic, vote) VALUES (?, ?, ?, ?, ?)", req.body.title, req.body.description, req.body.author, req.body.pic, req.body.vote, function (err) {

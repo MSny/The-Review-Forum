@@ -8,7 +8,7 @@
 <body style="background-color: #ecf0f1;">
 <h2>Create new category</h2>
 <form action = "/category" method="POST">
-<input style = "width: 250px" type=text name='title' placeholder='title' >
+<input style = "width: 250px" type=text name='title' placeholder='title' required>
 <br>
 <input style = "width: 250px" type=text name='description' placeholder='description'>
 <br>
@@ -16,11 +16,18 @@
 <br>
 <!-- <textarea name="post" style="margin: 0px; max-height: 350px; max-width: 312px;height: 250px;width: 250px;" required> Blog away! </textarea> -->
 <br>
-Place Picture: <input type='text' name='pic' placeholder='url'>
+Place Picture: <input type='text' name='pic' placeholder='url' required>
 <input type='hidden' name='vote' value='0'>
 <br>
 <button> Create</button>
 </form>
+<br>
+<p>If you don't have a picture why not search for one. Copy and paste from below.</p>
+<form action = "/category/new" method="POST">
+<textarea style = "width: 250px" type=text name='search' placeholder='search for pic'><%= instaURL %></textarea> 
+<button>Search</button>
+</form>
+</body>
 <a href='/forum'>Back to main page</a>
 </body>
 </html>
