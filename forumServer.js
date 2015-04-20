@@ -18,7 +18,6 @@ var request = require("request");
 var instagramString = ""
 var secrets = require("./secrets.json");
 var apiKey = secrets["instaAPI"];
-var instaURL = ""
 var instaImg = ""
 // Sendgrid action
 var sendgrid  = require('sendgrid')("msny36", "gogeta123");
@@ -88,30 +87,36 @@ app.get('/category', function (req, res){
 
 // render create category page
 app.get('/category/new', function (req, res){
-	instaImg = ""
+	var instaImg = "";
+	var instaURL = "";
 	res.render('categoryNew.ejs', {instaURL: instaURL})
 });
 ////////////////////////////////////////////////////////
 // Search Instagram API and grabs url
 app.post('/category/new', function (req, res){
-		instagramString += "https://api.instagram.com/v1/tags/"+req.body.search+"/media/recent?client_id="+apiKey
-		console.log(instagramString);
+	var instaImg = ""
+	instagramString += "https://api.instagram.com/v1/tags/"+req.body.search+"/media/recent?client_id="+apiKey
+	console.log(instagramString);
+	if (instaImg.length < 2){
 		request(instagramString,function(err,response, body){
-	if (err){
-		console.log(err)
-	} else if (instaImg.length < 2){
-		var parsedI = JSON.parse(body);
-		console.log(parsedI)
-		instaImg = parsedI.data[5].images.standard_resolution.url;
-		instaURL= instaImg;
-		console.log(instaImg);
-		res.render('categoryNew.ejs', {instaURL: instaURL})
-	}
-	})
-		if (instaImg.length > 2){
-			instaImg = ""
+			var instaImg = "";
+			if (err){
+				console.log(err)
+			} if (instaImg.length < 2){
+				var parsedI = JSON.parse(body);
+				console.log(parsedI)
+				instaImg = parsedI.data[5].images.standard_resolution.url;
+				instaURL= instaImg;
+				console.log(instaImg);
+				instagramString = ""
+				res.render('categoryNew.ejs', {instaURL: instaURL})
+			}
+		})}
+	if (instaImg.length > 2){
+			var instaImg = ""
+			instagramString = "";
 		}
-});
+	})
 		
 		// instaPicURL += instaImg;
 //create new categories
