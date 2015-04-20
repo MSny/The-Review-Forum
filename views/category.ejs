@@ -17,7 +17,7 @@
 <div class="container"> <!-- bootstrap container -->
 	<div class="row-fluid">
 	<br>
-	
+
 			<!-- Logo -->
 			<a style="font-size: 2em; color: #2c3e50;" href="/category"><img src="http://i.imgur.com/dZqh3TO.png" title="source: imgur.com" />Categories</a>
 			<br>
@@ -25,7 +25,7 @@
 			<div class="row">
 			<div class="col-md-2">
 			<% category.forEach(function(obj){  %>
-				<img class="categoryImg" style="height:150px;max-width:150px;width: expression(this.width > 500 ? 500: true);" id="Happy_CpuDude" src="<%= obj.pic %>" />
+				<img class="categoryImg" style="height:100px;max-width:100px;width: expression(this.width > 500 ? 500: true);" id="Happy_CpuDude" src="<%= obj.pic %>" />
 				
 				<br>
 				<br>
@@ -39,6 +39,8 @@
 					<p style="font-family:'Bookman Old Style', Bookman, 'URW Bookman L', 'Palatino Linotype', serif; color: #2c3e50;"><%= obj.description %></p>
 				<p style="font-family: monospace;"><b>by: <%= obj.author %></b></p>
 				<i class="fa fa-star"> <%= obj.vote %></i>
+				<br>
+				<br>
 				<br>
 				<br>
 			<% }); %>
