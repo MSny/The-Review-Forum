@@ -281,7 +281,7 @@ app.get("/posts/all", function(req, res) {
     //console.log(data1)
     db.all("SELECT category.title, category.id FROM category", function(err, data2) {
       //console.log(data2)
-      res.render("allPosts.ejs", {
+      res.render("allposts.ejs", {
         pTitles: data1,
         cTitles: data2,
         pagination: parseInt(req.query.offset) + 10,
